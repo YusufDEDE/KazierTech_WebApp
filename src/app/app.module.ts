@@ -8,7 +8,6 @@ import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './main/header/header.component';
 import { FooterComponent } from './main/footer/footer.component';
 import { MenuSidebarComponent } from './main/menu-sidebar/menu-sidebar.component';
-import { BlankComponent } from './pages/blank/blank.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +17,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { MessagesDropdownMenuComponent } from './main/header/messages-dropdown-menu/messages-dropdown-menu.component';
 import { NotificationsDropdownMenuComponent } from './main/header/notifications-dropdown-menu/notifications-dropdown-menu.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CategoryComponent } from './pages/category/category.component';
+import { JobsComponent } from './pages/jobs/jobs.component';
+import { ReferenceComponent } from './pages/reference/reference.component';
 
 @NgModule({
   declarations: [
@@ -27,12 +29,14 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     FooterComponent,
     MenuSidebarComponent,
-    BlankComponent,
     ProfileComponent,
     RegisterComponent,
     DashboardComponent,
     MessagesDropdownMenuComponent,
-    NotificationsDropdownMenuComponent
+    NotificationsDropdownMenuComponent,
+    CategoryComponent,
+    JobsComponent,
+    ReferenceComponent
   ],
   imports: [
     BrowserModule,

@@ -1,9 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './main/main.component';
-import { BlankComponent } from './pages/blank/blank.component';
-import { LoginComponent } from './login/login.component';
+
+
 import { ProfileComponent } from './pages/profile/profile.component';
+import { CategoryComponent } from './pages/category/category.component';
+import { JobsComponent } from './pages/jobs/jobs.component';
+import { ReferenceComponent } from './pages/reference/reference.component';
+
+import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './utils/guards/auth.guard';
@@ -21,8 +26,16 @@ const routes: Routes = [
         component: ProfileComponent
       },
       {
-        path: 'blank',
-        component: BlankComponent
+        path: 'category',
+        component: CategoryComponent
+      },
+      {
+        path: 'jobs',
+        component: JobsComponent
+      },
+      {
+        path: 'reference',
+        component: ReferenceComponent
       },
       {
         path: '',
