@@ -55,19 +55,15 @@ export class LoginComponent implements OnInit {
                 .pipe(first())
                 .subscribe(
                     data => {
-                        console.log("win", data);
-                        if(!data.access)
-                        {
-                            this.alertService.error("Kullanıcı adı veya şifre hatalı!");
-                            this.loading = false;
-                            this.f.username.setValue('');
-                            this.f.password.setValue('');
-                            
-                        }
-                        else{
-                            this.router.navigate([this.returnUrl]);
-                        }
-                        console.log(data)
+                        this.router.navigate([this.returnUrl]);
+                        console.log("token alameti _>",data)
+                    },
+                    error => {
+                        console.log("ulo error var la_>", error);
+                        this.alertService.error("Kullanıcı adı veya şifre hatalı!");
+                        this.loading = false;
+                        this.f.username.setValue('');
+                        this.f.password.setValue('');
                     });
                     
         }
