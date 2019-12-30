@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppService } from 'src/app/utils/services/app.service';
 import { HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
 import { RequestOptions } from '@angular/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category',
@@ -15,6 +16,9 @@ import { RequestOptions } from '@angular/http';
 export class CategoryComponent implements OnInit {
   categoryForm: FormGroup;
   categories: Category[];
+  required = false;
+  required2 = false;
+  required3 = false;
   
   fileData: File = null;
   previewUrl:any = null;
@@ -25,7 +29,6 @@ export class CategoryComponent implements OnInit {
     private categoryService: CategoryService,
     private formBuilder: FormBuilder,
     private appService: AppService,
-    private http :HttpClient
   ) { }
 
   fileProgress(fileInput: any) {
@@ -59,18 +62,33 @@ export class CategoryComponent implements OnInit {
   get f() { return this.categoryForm.controls; } 
 
   onSubmit() {
-    const token = this.appService.currentUserValue;
-    console.log(token);
-
-    const bodyFormData = new FormData();
-    bodyFormData.set('category_name', this.f.categoryName.value);
-    bodyFormData.set('cat_description', this.f.categoryDesc.value);
-    bodyFormData.append('cat_picture', this.fileData);
+    
+    if (this.f.categoryName.value == '' || this.f.categoryDesc.value == '' || this.fileData == null ){
+      this.required = false;
+      this.required2 = false;
+      this.required3 = false;
+      if (this.f.categoryName.value == '') {
+        this.required = true;
+      }
+      if (this.f.categoryDesc.value == '') {
+        this.required2 = true;
+      }
+      if (this.fileData == null){
+        this.required3 = true;
+      }
+    }
+    else {
+      const bodyFormData = new FormData();
+      bodyFormData.set('category_name', this.f.categoryName.value);
+      bodyFormData.set('cat_description', this.f.categoryDesc.value);
+      bodyFormData.append('cat_picture', this.fileData);
 
     this.categoryService.addCategories(bodyFormData)
       .subscribe(response => {
         console.log("add Category", response);
       });
+    
+    }
     
   }
 

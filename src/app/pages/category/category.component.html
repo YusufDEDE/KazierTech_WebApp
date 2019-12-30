@@ -19,9 +19,9 @@
   </div>
   <!-- /.content-header -->
 
-  <!-- Main content -->
-  <section class="content">
-      <div class="container">
+<!-- Main content -->
+<section class="content">
+  <div class="container">
     <div class="row">
         <!-- left column -->
         <div class="col">
@@ -34,15 +34,18 @@
           <div class="card-body">
             <div class="form-group">
               <input formControlName="categoryName" type="text" class="form-control" id="categoryName" placeholder="Kategori Adı">
+              <small [hidden]="!required" id="emailHelp" style="color: red;"class="form-text ">Kategori boş bırakılamaz</small>
             </div>
             <div class="form-group">
               <input formControlName="categoryDesc" type="text" class="form-control" id="categoryDesc" placeholder="Kategori Açıklama">
+              <small [hidden]="!required2" id="emailHelp" style="color: red;"class="form-text ">Kategori Açıklama boş bırakılamaz</small>
             </div>
             <div class="form-group">
                 <h3>Resim Yükle</h3>            
                 <div class="form-group">
                     <input  formControlName="categoryPic" type="file" name="image" (change)="fileProgress($event)" />
                 </div>
+                <small [hidden]="!required3" id="emailHelp" style="color: red;"class="form-text ">Resim seçiniz!</small>
                 <div *ngIf="fileUploadProgress">
                     Upload progress: {{ fileUploadProgress }}
                 </div>

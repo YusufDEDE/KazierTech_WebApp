@@ -18,3 +18,112 @@
     <!-- /.container-fluid -->
   </div>
   <!-- /.content-header -->
+
+  <!-- Main content -->
+<section class="content">
+  <div class="container">
+    <div class="row">
+        <!-- left column -->
+        <div class="col">
+    <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Referans Ekle</h3>
+        </div>
+        <!-- /.card-header -->
+        <form [formGroup]="referenceForm" (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="form-group">
+              <input formControlName="referenceName" type="text" class="form-control" id="categoryName" placeholder="Referans Adı">
+              <small [hidden]="!required" id="emailHelp" style="color: red;"class="form-text ">Referans adı boş bırakılamaz</small>
+            </div>
+            <div class="form-group">
+              <input formControlName="referenceDesc" type="text" class="form-control" id="categoryDesc" placeholder="Referans Açıklama">
+              <small [hidden]="!required2" id="emailHelp" style="color: red;"class="form-text ">Referans Açıklama boş bırakılamaz</small>
+            </div>
+            <div class="form-group">
+                <h3>Resim Yükle</h3>            
+                <div class="form-group">
+                    <input  formControlName="referencePic" type="file" name="image" (change)="fileProgress($event)" />
+                </div>
+                <small [hidden]="!required3" id="emailHelp" style="color: red;"class="form-text ">Resim seçiniz!</small>
+                <div class="image-preview mb-3" *ngIf="previewUrl">
+                    <img [src]="previewUrl" height="100" />                 
+                </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </div>
+</div>
+      <!-- /.card -->
+    <!-- Default box -->
+    <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Referanslar Tablosu</h3>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 1%">
+                        ID
+                    </th>
+                    <th style="width: 20%">
+                        Referans Adı
+                    </th>
+                    <th style="width: 30%">
+                        Açıklama
+                    </th>
+                    <th>
+                        Kayıt Tarihi
+                    </th>
+                    <th style="width: 8%" class="text-center">
+                        Resim
+                    </th>
+                    <th style="width: 15%">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let reference of references">
+                    <td>
+                        {{ reference.id }}
+                    </td>
+                    <td>
+                        {{ reference.reference_name }}
+                    </td>
+                    <td>
+                        {{ reference.ref_description }}
+                    </td>
+                    <td>
+                        {{ reference.ref_date | date:'medium' }}
+                    </td>
+                    <td>
+                       <a href="{{reference.ref_picture }}">Resim</a> 
+                    </td>
+                    <td class="project-actions text-right">
+                        <a class="btn btn-info btn-sm" href="#">
+                            <i class="fas fa-pencil-alt">
+                            </i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="#">
+                            <i class="fas fa-trash">
+                            </i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+  </section>
+  <!-- /.content -->

@@ -18,3 +18,108 @@
     <!-- /.container-fluid -->
   </div>
   <!-- /.content-header -->
+
+  <!-- Main content -->
+<section class="content">
+  <div class="container">
+    <div class="row">
+        <!-- left column -->
+        <div class="col">
+    <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">İş Ekle</h3>
+        </div>
+        <!-- /.card-header -->
+        <form [formGroup]="jobsForm" (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="form-group">
+              <select formControlName="categoryName" id="categoryName" class="form-control">
+                <option *ngFor="let opt of categories" [value]="opt.id">{{opt.id}} - {{opt.category_name}}</option>
+            </select>
+            <small [hidden]="!required" id="emailHelp" style="color: red;"class="form-text ">Kategori seçiniz!</small>
+            </div>
+            <div class="form-group">
+              <input formControlName="jobName" type="text" class="form-control" id="categoryDesc" placeholder="İş Adı">
+              <small [hidden]="!required2" id="emailHelp" style="color: red;"class="form-text ">İş Adı boş bırakılamaz</small>
+            </div>
+            <div class="form-group">
+                <h3>Resim Yükle</h3>            
+                <div class="form-group">
+                    <input  formControlName="jobPic" type="file" name="image" (change)="fileProgress($event)" />
+                </div>
+                <small [hidden]="!required3" id="emailHelp" style="color: red;"class="form-text ">Resim seçiniz!</small>
+                <div class="image-preview mb-3" *ngIf="previewUrl">
+                    <img [src]="previewUrl" height="100" />                 
+                </div>
+            </div>
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Ekle</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    </div>
+</div>
+      <!-- /.card -->
+    <!-- Default box -->
+    <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Kategoriler Tablosu</h3>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 1%">
+                        ID
+                    </th>
+                    <th style="width: 20%">
+                        Kategori ID
+                    </th>
+                    <th style="width: 30%">
+                        İş adı
+                    </th>
+                    <th style="width: 8%" class="text-center">
+                        Resim
+                    </th>
+                    <th style="width: 15%">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let job of jobs">
+                    <td>
+                        {{ job.id }}
+                    </td>
+                    <td>
+                        {{ job.category }}
+                    </td>
+                    <td>
+                        {{ job.job_name }}
+                    </td>
+                    <td>
+                       <a href="{{job.job_picture }}">Resim</a> 
+                    </td>
+                    <td class="project-actions text-right">
+                        <a class="btn btn-info btn-sm" href="#">
+                            <i class="fas fa-pencil-alt">
+                            </i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="#">
+                            <i class="fas fa-trash">
+                            </i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+  </section>
+  <!-- /.content -->
