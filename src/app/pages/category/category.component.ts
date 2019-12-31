@@ -19,6 +19,8 @@ export class CategoryComponent implements OnInit {
   required = false;
   required2 = false;
   required3 = false;
+
+  loading = false;
   
   fileData: File = null;
   previewUrl:any = null;
@@ -78,6 +80,7 @@ export class CategoryComponent implements OnInit {
       }
     }
     else {
+      this.loading = true;
       const bodyFormData = new FormData();
       bodyFormData.set('category_name', this.f.categoryName.value);
       bodyFormData.set('cat_description', this.f.categoryDesc.value);

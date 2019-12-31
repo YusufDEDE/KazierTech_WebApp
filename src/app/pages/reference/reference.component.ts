@@ -16,6 +16,8 @@ export class ReferenceComponent implements OnInit {
   required = false;
   required2 = false;
   required3 = false;
+
+  loading = false;
   
   fileData: File = null;
   previewUrl:any = null;
@@ -73,6 +75,7 @@ export class ReferenceComponent implements OnInit {
       }
     }
     else {
+      this.loading = true;
       const bodyFormData = new FormData();
       bodyFormData.set('reference_name', this.f.referenceName.value);
       bodyFormData.set('ref_description', this.f.referenceDesc.value);

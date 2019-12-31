@@ -17,16 +17,15 @@ export class CategoryService {
     private router:Router,
     private appService: AppService,
   ) { }
-  path: string = "http://127.0.0.1:8000/category/"
+  path: string = "https://constructionworks.herokuapp.com/category/"
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.path)
   }
 
   addCategories(body) : Observable<any> {
     const token = this.appService.currentUserValue;
-    const url = "http://127.0.0.1:8000/category/";
 
-    return this.http.post(url, body, {headers: new HttpHeaders({
+    return this.http.post(this.path, body, {headers: new HttpHeaders({
       'Authorization': "Bearer "+token.access,
          })
       }).pipe(

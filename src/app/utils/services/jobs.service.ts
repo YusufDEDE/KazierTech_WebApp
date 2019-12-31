@@ -19,7 +19,7 @@ export class JobsService {
     private appService: AppService,
   ) { }
 
-  path: string = "http://127.0.0.1:8000/jobs/"
+  path: string = "https://constructionworks.herokuapp.com/jobs/"
   getJobs(): Observable<Jobs[]> {
     return this.http.get<Jobs[]>(this.path)
   }

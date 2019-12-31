@@ -20,7 +20,7 @@ export class ReferenceService {
     private appService: AppService,
   ) { }
 
-  path: string = "http://127.0.0.1:8000/reference/"
+  path: string = "https://constructionworks.herokuapp.com/reference/"
   getReference(): Observable<References[]> {
     return this.http.get<References[]>(this.path)
   }

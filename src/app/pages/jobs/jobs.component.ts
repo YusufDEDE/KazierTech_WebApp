@@ -19,6 +19,8 @@ export class JobsComponent implements OnInit {
   required = false;
   required2 = false;
   required3 = false;
+
+  loading = false;
   
   fileData: File = null;
   previewUrl:any = null;
@@ -82,6 +84,7 @@ export class JobsComponent implements OnInit {
         this.required3 = true;
       }
     }else {
+      this.loading = true;
       const bodyFormData = new FormData();
       bodyFormData.set('category', this.f.categoryName.value);
       bodyFormData.set('job_name', this.f.jobName.value);

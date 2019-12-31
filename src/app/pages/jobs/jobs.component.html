@@ -55,7 +55,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Ekle</button>
+            <button [disabled]="loading" type="submit" class="btn btn-primary">Ekle</button>
           </div>
         </form>
       </div>
@@ -85,8 +85,6 @@
                     <th style="width: 8%" class="text-center">
                         Resim
                     </th>
-                    <th style="width: 15%">
-                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -102,16 +100,6 @@
                     </td>
                     <td>
                        <a href="{{job.job_picture }}">Resim</a> 
-                    </td>
-                    <td class="project-actions text-right">
-                        <a class="btn btn-info btn-sm" href="#">
-                            <i class="fas fa-pencil-alt">
-                            </i>
-                        </a>
-                        <a class="btn btn-danger btn-sm" href="#">
-                            <i class="fas fa-trash">
-                            </i>
-                        </a>
                     </td>
                 </tr>
             </tbody>
