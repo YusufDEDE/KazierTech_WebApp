@@ -17,7 +17,7 @@ export class CategoryService {
     private router:Router,
     private appService: AppService,
   ) { }
-  path: string = "http://127.0.0.1:8000/category/"
+  path: string = "https://constructionworks.herokuapp.com/category/"
   token = this.appService.currentUserValue;
 
   redirectTo(uri:string){
