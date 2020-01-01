@@ -30,11 +30,11 @@
           <h3 class="card-title">Kategori Ekle</h3>
         </div>
         <!-- /.card-header -->
-        <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-          <div class="card-body">
-            <div class="form-group">
+        <form [formGroup]="categoryForm">
+          <div class="card-body" >
+            <div class="form-group ">
               <input formControlName="categoryName" type="text" class="form-control" id="categoryName" placeholder="Kategori Adı">
-              <small [hidden]="!required" id="emailHelp" style="color: red;"class="form-text ">Kategori boş bırakılamaz</small>
+              <small [hidden]="!required" id="emailHelp" style="color: red;"class="form-text">Kategori boş bırakılamaz</small>
             </div>
             <div class="form-group">
               <input formControlName="categoryDesc" type="text" class="form-control" id="categoryDesc" placeholder="Kategori Açıklama">
@@ -46,20 +46,20 @@
                     <input  formControlName="categoryPic" type="file" name="image" (change)="fileProgress($event)" />
                 </div>
                 <small [hidden]="!required3" id="emailHelp" style="color: red;"class="form-text ">Resim seçiniz!</small>
-                <div *ngIf="fileUploadProgress">
-                    Upload progress: {{ fileUploadProgress }}
-                </div>
                 <div class="image-preview mb-3" *ngIf="previewUrl">
                     <img [src]="previewUrl" height="100" />                 
-                </div>
-                <div class="mb-3" *ngIf="uploadedFilePath">
-                    {{uploadedFilePath}}
                 </div>
             </div>
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button [disabled]="loading" type="submit" class="btn btn-primary">Ekle</button>
+            <button *ngIf="add" [disabled]="loading" type="submit" (click)="onSubmit()" class="btn btn-primary">Ekle</button>
+            
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button *ngIf="update" [disabled]="loading" class="btn btn-success" (click)="onUpdateCategory(categoryID)">Güncelle</button>
+              <button *ngIf="update" [disabled]="loading" class="btn btn-dark" (click)="canUpdateBtn()">Vazgeç</button>
+            </div>
+            <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
           </div>
         </form>
       </div>
@@ -89,14 +89,16 @@
                     <th>
                         Kayıt Tarihi
                     </th>
-                    <th style="width: 8%" class="text-center">
+                    <th style="width: 8%">
                         Resim
+                    </th>
+                    <th>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let category of categories">
-                    <td>
+                  <td>
                         {{ category.id }}
                     </td>
                     <td>
@@ -110,6 +112,16 @@
                     </td>
                     <td>
                        <a href="{{category.cat_picture }}">Resim</a> 
+                    </td>
+                    <td>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button class="btn btn-primary btn-sm" (click)="onDeleteCategory(category.id)">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button> 
+                        <button class="btn btn-danger btn-sm " (click)="canUpdateBtn(category.id, category.category_name, category.cat_description)">
+                          <i class="fa fa-pen" aria-hidden="true"></i>
+                        </button>
+                      </div>
                     </td>
                 </tr>
             </tbody>

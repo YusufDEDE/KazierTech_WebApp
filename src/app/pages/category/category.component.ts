@@ -2,10 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../utils/services/category.service';
 import { Category } from '../../utils/services/model/category';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AppService } from 'src/app/utils/services/app.service';
-import { HttpClient, HttpEventType, HttpHeaders} from '@angular/common/http';
-import { RequestOptions } from '@angular/http';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category',
@@ -16,11 +12,16 @@ import { ToastrService } from 'ngx-toastr';
 export class CategoryComponent implements OnInit {
   categoryForm: FormGroup;
   categories: Category[];
+  
+  categoryID:any;
+
   required = false;
   required2 = false;
   required3 = false;
 
   loading = false;
+  update = false;
+  add = true;
   
   fileData: File = null;
   previewUrl:any = null;
@@ -30,7 +31,6 @@ export class CategoryComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private formBuilder: FormBuilder,
-    private appService: AppService,
   ) { }
 
   fileProgress(fileInput: any) {
@@ -95,12 +95,64 @@ export class CategoryComponent implements OnInit {
     
   }
 
+  canUpdateBtn(id, categoryName, categoryDesc) {
+    console.log("id : ", id);
+    if (!this.update){
+      this.categoryID = id;
+      this.f.categoryName.setValue(categoryName)
+      this.f.categoryDesc.setValue(categoryDesc)
+      this.update = true;
+      this.add = false;
+    }else {
+      this.update = false;
+      this.add = true;
+
+      this.f.categoryName.setValue('')
+      this.f.categoryDesc.setValue('')
+    }
+    
+  }
+
+  onDeleteCategory(id){
+    this.categoryService.deleteCategory(id).subscribe(data => {
+      console.log('component data', data);
+    })
+  }
+
+  onUpdateCategory(id){
+    if (this.f.categoryName.value == '' || this.f.categoryDesc.value == '' || this.fileData == null ){
+      this.required = false;
+      this.required2 = false;
+      this.required3 = false;
+      if (this.f.categoryName.value == '') {
+        this.required = true;
+      }
+      if (this.f.categoryDesc.value == '') {
+        this.required2 = true;
+      }
+      if (this.fileData == null){
+        this.required3 = true;
+      }
+    }
+    else {  
+      this.loading = true;
+      const bodyFormData = new FormData();
+      bodyFormData.set('category_name', this.f.categoryName.value);
+      bodyFormData.set('cat_description', this.f.categoryDesc.value);
+      bodyFormData.append('cat_picture', this.fileData);
+
+      this.categoryService.updateCategory(id, bodyFormData).subscribe(data => {
+        console.log('update data', data);
+      })
+    }
+  }
+
   getCategories() {
      this.categoryService.getCategories().subscribe(data => {
        console.log(data)
        this.categories = data;
+       this.categories.reverse()
      })
   }
-
   
 }
