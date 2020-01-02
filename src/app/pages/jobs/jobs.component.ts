@@ -21,6 +21,10 @@ export class JobsComponent implements OnInit {
   required3 = false;
 
   loading = false;
+  update = false;
+  add = true;
+
+  jobID:any;
   
   fileData: File = null;
   previewUrl:any = null;
@@ -97,6 +101,24 @@ export class JobsComponent implements OnInit {
     }
   }
 
+  canUpdateBtn(id, categoryName, categoryDesc) {
+    console.log("id : ", id);
+    if (!this.update){
+      this.jobID = id;
+      this.f.categoryName.setValue(categoryName)
+      this.f.categoryDesc.setValue(categoryDesc)
+      this.update = true;
+      this.add = false;
+    }else {
+      this.update = false;
+      this.add = true;
+
+      this.f.categoryName.setValue('')
+      this.f.categoryDesc.setValue('')
+    }
+    
+  }
+
   getCategories() {
     this.categoryService.getCategories().subscribe(data => {
       console.log(data)
@@ -110,5 +132,40 @@ export class JobsComponent implements OnInit {
       this.jobs = data;
     })
   }
+
+  onUpdateJob(id){
+    if (this.f.categoryName.value == '' || this.f.categoryDesc.value == '' || this.fileData == null ){
+      this.required = false;
+      this.required2 = false;
+      this.required3 = false;
+      if (this.f.categoryName.value == '') {
+        this.required = true;
+      }
+      if (this.f.categoryDesc.value == '') {
+        this.required2 = true;
+      }
+      if (this.fileData == null){
+        this.required3 = true;
+      }
+    }
+    else {  
+      this.loading = true;
+      const bodyFormData = new FormData();
+      bodyFormData.set('category_name', this.f.categoryName.value);
+      bodyFormData.set('cat_description', this.f.categoryDesc.value);
+      bodyFormData.append('cat_picture', this.fileData);
+
+      this.categoryService.updateCategory(id, bodyFormData).subscribe(data => {
+        console.log('update data', data);
+      })
+    }
+  }
+
+  onDeleteCategory(id){
+    this.categoryService.deleteCategory(id).subscribe(data => {
+      console.log('component data', data);
+    })
+  }
+
 
 }

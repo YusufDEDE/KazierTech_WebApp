@@ -95,12 +95,13 @@ export class CategoryComponent implements OnInit {
     
   }
 
-  canUpdateBtn(id, categoryName, categoryDesc) {
+  canUpdateBtn(id, categoryName, categoryDesc, categoryPic) {
     console.log("id : ", id);
     if (!this.update){
       this.categoryID = id;
       this.f.categoryName.setValue(categoryName)
       this.f.categoryDesc.setValue(categoryDesc)
+      this.fileData = categoryPic;
       this.update = true;
       this.add = false;
     }else {
@@ -113,11 +114,13 @@ export class CategoryComponent implements OnInit {
     
   }
 
-  onDeleteCategory(id){
-    this.categoryService.deleteCategory(id).subscribe(data => {
-      console.log('component data', data);
+  getCategories() {
+    this.categoryService.getCategories().subscribe(data => {
+      console.log(data)
+      this.categories = data;
+      this.categories.reverse()
     })
-  }
+ }
 
   onUpdateCategory(id){
     if (this.f.categoryName.value == '' || this.f.categoryDesc.value == '' || this.fileData == null ){
@@ -141,18 +144,20 @@ export class CategoryComponent implements OnInit {
       bodyFormData.set('cat_description', this.f.categoryDesc.value);
       bodyFormData.append('cat_picture', this.fileData);
 
+      console.log(bodyFormData.get('cat_picture'));
+
       this.categoryService.updateCategory(id, bodyFormData).subscribe(data => {
         console.log('update data', data);
       })
     }
   }
 
-  getCategories() {
-     this.categoryService.getCategories().subscribe(data => {
-       console.log(data)
-       this.categories = data;
-       this.categories.reverse()
-     })
+  onDeleteCategory(id){
+    this.categoryService.deleteCategory(id).subscribe(data => {
+      console.log('component data', data);
+    })
   }
+
+  
   
 }

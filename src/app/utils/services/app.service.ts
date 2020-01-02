@@ -4,17 +4,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../../models/user';
+import { ApiConfig } from "./ApiConfig";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AppService {
-  url:string = 'https://constructionworks.herokuapp.com'; 
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  public apiconfig = new ApiConfig();
   
-
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -29,7 +29,7 @@ export class AppService {
 
   login(username, password) {
     console.log(username, password);
-        return this.http.post<any>(this.url+'/api/token/', {username, password})
+        return this.http.post<any>(this.apiconfig.path+'/api/token/', {username, password})
             .pipe(map(user => {
                 console.log(user.access);
                 // login successful if there's a jwt token in the response
@@ -45,7 +45,7 @@ export class AppService {
   }
 
   test(){
-    return this.http.get<any>('https://constructionworks.herokuapp.com/jobs/').
+    return this.http.get<any>(this.apiconfig.path+'/jobs/').
       subscribe( data => {
         console.log("uloo , ", data);
       }

@@ -118,7 +118,8 @@
                         <button class="btn btn-primary btn-sm" (click)="onDeleteCategory(category.id)">
                           <i class="fa fa-trash" aria-hidden="true"></i>
                         </button> 
-                        <button class="btn btn-danger btn-sm " (click)="canUpdateBtn(category.id, category.category_name, category.cat_description)">
+                        <button class="btn btn-danger btn-sm" type="file" (click)="canUpdateBtn(category.id, category.category_name, category.cat_description, category.cat_picture)" (change)="fileProgress($event)">
+                          <input hidden="true" type="file" name="image" (change)="fileProgress(category.cat_picture)" />
                           <i class="fa fa-pen" aria-hidden="true"></i>
                         </button>
                       </div>

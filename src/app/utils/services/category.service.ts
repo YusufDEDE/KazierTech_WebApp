@@ -8,8 +8,12 @@ import { Router } from '@angular/router';
 import { AppService } from './app.service';
 import { HttpHeaders } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
+import { ApiConfig } from './ApiConfig';
 @Injectable()
 export class CategoryService {
+  
+  public apiconfig = new ApiConfig();
+
   success:any;
   constructor(
     private http: HttpClient,
@@ -17,7 +21,6 @@ export class CategoryService {
     private router:Router,
     private appService: AppService,
   ) { }
-  path: string = "https://constructionworks.herokuapp.com/category/"
   token = this.appService.currentUserValue;
 
   redirectTo(uri:string){
@@ -26,9 +29,7 @@ export class CategoryService {
   }
 
   addCategories(body) : Observable<any> {
-    
-
-    return this.http.post(this.path, body, {headers: new HttpHeaders({
+    return this.http.post(this.apiconfig.path+'/category/', body, {headers: new HttpHeaders({
       'Authorization': "Bearer "+this.token.access,
          })
       }).pipe(
@@ -50,15 +51,11 @@ export class CategoryService {
   }
 
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.path)
-  }
-
-  getDetailCategory(id):Observable<Category[]> {
-    return this.http.get<Category[]>(this.path+id+'/')
+    return this.http.get<Category[]>(this.apiconfig.path+'/category/')
   }
 
   updateCategory(id, body){
-    return this.http.put(this.path+'detail/'+id+'/', body, {headers: new HttpHeaders({
+    return this.http.put(this.apiconfig.path+'/category/detail/'+id+'/', body, {headers: new HttpHeaders({
       'Authorization': "Bearer "+this.token.access,
          })
       })
@@ -72,7 +69,7 @@ export class CategoryService {
   }
 
   deleteCategory(id){
-    return this.http.delete(this.path+'detail/'+id+'/', {headers: new HttpHeaders({
+    return this.http.delete(this.apiconfig.path+'/category/detail/'+id+'/', {headers: new HttpHeaders({
       'Authorization': "Bearer "+this.token.access,
          })
       })
