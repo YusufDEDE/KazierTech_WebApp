@@ -70,10 +70,6 @@ export class JobsComponent implements OnInit {
   get f() { return this.jobsForm.controls; } 
 
   onSubmit () {
-    const token = this.appService.currentUserValue;
-    console.log(token);
-    
-    
     if (this.f.categoryName.value == '' || this.f.jobName.value == '' || this.fileData == null ){
       this.required = false;
       this.required2 = false;
@@ -101,12 +97,12 @@ export class JobsComponent implements OnInit {
     }
   }
 
-  canUpdateBtn(id, categoryName, categoryDesc) {
+  canUpdateBtn(id, categoryName, jobName) {
     console.log("id : ", id);
     if (!this.update){
       this.jobID = id;
       this.f.categoryName.setValue(categoryName)
-      this.f.categoryDesc.setValue(categoryDesc)
+      this.f.jobName.setValue(jobName)
       this.update = true;
       this.add = false;
     }else {
@@ -114,7 +110,7 @@ export class JobsComponent implements OnInit {
       this.add = true;
 
       this.f.categoryName.setValue('')
-      this.f.categoryDesc.setValue('')
+      this.f.jobName.setValue('')
     }
     
   }
@@ -134,14 +130,14 @@ export class JobsComponent implements OnInit {
   }
 
   onUpdateJob(id){
-    if (this.f.categoryName.value == '' || this.f.categoryDesc.value == '' || this.fileData == null ){
+    if (this.f.categoryName.value == '' || this.f.jobName.value == '' || this.fileData == null ){
       this.required = false;
       this.required2 = false;
       this.required3 = false;
       if (this.f.categoryName.value == '') {
         this.required = true;
       }
-      if (this.f.categoryDesc.value == '') {
+      if (this.f.jobName.value == '') {
         this.required2 = true;
       }
       if (this.fileData == null){
@@ -152,17 +148,17 @@ export class JobsComponent implements OnInit {
       this.loading = true;
       const bodyFormData = new FormData();
       bodyFormData.set('category_name', this.f.categoryName.value);
-      bodyFormData.set('cat_description', this.f.categoryDesc.value);
-      bodyFormData.append('cat_picture', this.fileData);
+      bodyFormData.set('job_name', this.f.jobName.value);
+      bodyFormData.append('job_picture', this.fileData);
 
-      this.categoryService.updateCategory(id, bodyFormData).subscribe(data => {
+      this.jobsService.updateJobs(id, bodyFormData).subscribe(data => {
         console.log('update data', data);
       })
     }
   }
 
-  onDeleteCategory(id){
-    this.categoryService.deleteCategory(id).subscribe(data => {
+  onDeleteJob(id){
+    this.jobsService.deleteJobs(id).subscribe(data => {
       console.log('component data', data);
     })
   }

@@ -55,7 +55,12 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button [disabled]="loading" type="submit" class="btn btn-primary">Ekle</button>
+            <button *ngIf="add" [disabled]="loading" type="submit" (click)="onSubmit()" class="btn btn-primary">Ekle</button>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button *ngIf="update" [disabled]="loading" class="btn btn-success" (click)="onUpdateJob(jobID)">Güncelle</button>
+              <button *ngIf="update" [disabled]="loading" class="btn btn-dark" (click)="canUpdateBtn()">Vazgeç</button>
+            </div>
+            <img *ngIf="loading" class="pl-3" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
           </div>
         </form>
       </div>
@@ -73,17 +78,20 @@
         <table class="table table-striped projects">
             <thead>
                 <tr>
-                    <th style="width: 1%">
+                    <th>
                         ID
-                    </th>
-                    <th style="width: 20%">
+                    </th>    
+                    <th>
                         Kategori ID
                     </th>
-                    <th style="width: 30%">
+                    <th>
                         İş adı
                     </th>
-                    <th style="width: 8%" class="text-center">
+                    <th>
                         Resim
+                    </th>
+                    <th>
+                      
                     </th>
                 </tr>
             </thead>
@@ -100,6 +108,17 @@
                     </td>
                     <td>
                        <a href="{{job.job_picture }}">Resim</a> 
+                    </td>
+                    <td>
+                      <div class="btn-group" role="group" aria-label="Basic example">
+                        <button class="btn btn-primary btn-sm" (click)="onDeleteJob(job.id)">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button> 
+                        <button class="btn btn-danger btn-sm" type="file" (click)="canUpdateBtn(job.id, job.category, job.job_name  )" (change)="fileProgress($event)">
+                          <input hidden="true" type="file" name="image" (change)="fileProgress(job.job_picture)" />
+                          <i class="fa fa-pen" aria-hidden="true"></i>
+                        </button>
+                      </div>
                     </td>
                 </tr>
             </tbody>

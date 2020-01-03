@@ -99,9 +99,9 @@ export class CategoryComponent implements OnInit {
     console.log("id : ", id);
     if (!this.update){
       this.categoryID = id;
-      this.f.categoryName.setValue(categoryName)
-      this.f.categoryDesc.setValue(categoryDesc)
-      this.fileData = categoryPic;
+      this.f.categoryName.setValue(categoryName);
+      this.f.categoryDesc.setValue(categoryDesc);
+      this.f.categoryPic.setValue(categoryPic.files)
       this.update = true;
       this.add = false;
     }else {

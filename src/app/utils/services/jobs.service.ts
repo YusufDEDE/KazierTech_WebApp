@@ -56,8 +56,9 @@ export class JobsService {
   }
 
   updateJobs(id, body){
+    console.log("token", this.token.access)
     return this.http.put(this.apiconfig.path+'/jobs/detail/'+id+'/', body, {headers: new HttpHeaders({
-      'Authorization': "Bearer "+this.token.access,
+      'Authorization': "Bearer "+this.token.refresh,
          })
       })
       .pipe(

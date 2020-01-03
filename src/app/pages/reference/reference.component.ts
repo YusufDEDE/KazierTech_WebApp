@@ -10,15 +10,20 @@ import { ReferenceService } from 'src/app/utils/services/reference.service';
   styleUrls: ['./reference.component.scss']
 })
 export class ReferenceComponent implements OnInit {
+  referenceForm : FormGroup;
   references: References[];
 
-  referenceForm : FormGroup;
+  referenceID:any;
+
   required = false;
   required2 = false;
   required3 = false;
 
   loading = false;
-  
+  update = false;
+  add = true;
+
+
   fileData: File = null;
   previewUrl:any = null;
   fileUploadProgress: string = null;
@@ -59,6 +64,25 @@ export class ReferenceComponent implements OnInit {
 
   get f() { return this.referenceForm.controls; } 
 
+  canUpdateBtn(id, referenceName, referenceDesc, referencePic) {
+    console.log("id : ", id);
+    if (!this.update){
+      this.referenceID = id;
+      this.f.referenceName.setValue(referenceName);
+      this.f.referenceDesc.setValue(referenceDesc);
+      this.fileData = referencePic;
+      this.update = true;
+      this.add = false;
+    }else {
+      this.update = false;
+      this.add = true;
+
+      this.f.referenceName.setValue('')
+      this.f.referenceDesc.setValue('')
+    }
+    
+  }
+
   onSubmit() {
     if (this.f.referenceName.value == '' || this.f.referenceDesc.value == '' || this.fileData == null ){
       this.required = false;
@@ -88,12 +112,48 @@ export class ReferenceComponent implements OnInit {
     }
   }
 
-  
   getReference() {
     this.referenceService.getReference().subscribe(data => {
       console.log(data)
       this.references = data;
+      this.references.reverse();
     })
- }
+  }
 
+  onUpdateReference(id){
+    if (this.f.referenceName.value == '' || this.f.referenceDesc.value == '' || this.fileData == null ){
+      this.required = false;
+      this.required2 = false;
+      this.required3 = false;
+      if (this.f.referenceName.value == '') {
+        this.required = true;
+      }
+      if (this.f.referenceDesc.value == '') {
+        this.required2 = true;
+      }
+      if (this.fileData == null){
+        this.required3 = true;
+      }
+    }
+    else {  
+      this.loading = true;
+      const bodyFormData = new FormData();
+      bodyFormData.set('reference_name', this.f.referenceName.value);
+      bodyFormData.set('ref_description', this.f.referenceDesc.value);
+      bodyFormData.append('ref_picture', this.fileData);
+
+      console.log(bodyFormData.get('cat_picture'));
+
+      this.referenceService.updateReference(id, bodyFormData).subscribe(data => {
+        console.log('update data', data);
+      })
+    }
+  }
+
+  onDeleteReference(id){
+    this.referenceService.deleteReference(id).subscribe(data => {
+      console.log('component data', data);
+    })
+  }
+  
 }

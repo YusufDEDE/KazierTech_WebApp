@@ -56,7 +56,7 @@ export class ReferenceService {
     return this.http.get<References[]>(this.apiconfig.path+'/reference/')
   }
 
-  updateRefernce(id, body){
+  updateReference(id, body){
     return this.http.put(this.apiconfig.path+'/reference/detail/'+id+'/', body, {headers: new HttpHeaders({
       'Authorization': "Bearer "+this.token.access,
          })
