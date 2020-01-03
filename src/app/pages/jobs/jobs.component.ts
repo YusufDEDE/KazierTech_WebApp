@@ -147,7 +147,7 @@ export class JobsComponent implements OnInit {
     else {  
       this.loading = true;
       const bodyFormData = new FormData();
-      bodyFormData.set('category_name', this.f.categoryName.value);
+      bodyFormData.set('category', this.f.categoryName.value);
       bodyFormData.set('job_name', this.f.jobName.value);
       bodyFormData.append('job_picture', this.fileData);
 

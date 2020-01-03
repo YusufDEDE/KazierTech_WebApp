@@ -114,7 +114,7 @@
                         <button class="btn btn-primary btn-sm" (click)="onDeleteJob(job.id)">
                           <i class="fa fa-trash" aria-hidden="true"></i>
                         </button> 
-                        <button class="btn btn-danger btn-sm" type="file" (click)="canUpdateBtn(job.id, job.category, job.job_name  )" (change)="fileProgress($event)">
+                        <button class="btn btn-danger btn-sm" type="file" (click)="canUpdateBtn(job.id, job.category, job.job_name)" (change)="fileProgress($event)">
                           <input hidden="true" type="file" name="image" (change)="fileProgress(job.job_picture)" />
                           <i class="fa fa-pen" aria-hidden="true"></i>
                         </button>
