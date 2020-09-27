@@ -14,42 +14,42 @@ export class AppService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
   public apiconfig = new ApiConfig();
-  
+
   constructor(
     private http: HttpClient,
     private router: Router,
-    ) {
+  ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue() {
     return this.currentUserSubject.value;
-}
-
-  login(username, password) {
-    console.log(username, password);
-        return this.http.post<any>(this.apiconfig.path+'/api/token/', {username, password})
-            .pipe(map(user => {
-                console.log(user.access);
-                // login successful if there's a jwt token in the response
-                if (user.access) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    this.currentUserSubject.next(user);
-                    //const currentUser = this.currentUserValue;
-                }
-                return user;    
-            }));
-            
   }
 
-  test(){
-    return this.http.get<any>(this.apiconfig.path+'/jobs/').
-      subscribe( data => {
+  login(UserIdentityNo, UserPassword) {
+    console.log(UserIdentityNo, UserPassword);
+    return this.http.post<any>(this.apiconfig.path + '/login', { UserIdentityNo, UserPassword })
+      .pipe(map(user => {
+        console.log(user.result);
+        // login successful if there's a jwt token in the response
+        if (user.result) {
+          // store user details and jwt token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+          //const currentUser = this.currentUserValue;
+        }
+        return user;
+      }));
+
+  }
+
+  test() {
+    return this.http.get<any>(this.apiconfig.path + '/jobs/').
+      subscribe(data => {
         console.log("uloo , ", data);
       }
-    )
+      )
   }
 
   logout() {

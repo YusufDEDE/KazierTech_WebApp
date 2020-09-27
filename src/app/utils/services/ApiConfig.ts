@@ -1,3 +1,3 @@
 export class ApiConfig {
-    path: string = 'https://constructionworks.herokuapp.com';
+    path: string = 'https://sta-serve.herokuapp.com';
 }
